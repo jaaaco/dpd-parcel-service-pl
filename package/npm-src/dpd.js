@@ -1,6 +1,6 @@
 "use strict";
 
-DPD = class DPD {
+export class DPD {
     constructor(login, password, fid, testmode = true) {
         this.login = login;
         this.password = password;

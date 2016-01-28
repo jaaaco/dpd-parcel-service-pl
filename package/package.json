@@ -1,0 +1,39 @@
+{
+  "name": "dpd-parcel-service-pl",
+  "version": "0.0.2",
+  "description": "Meteor package to communicate with DPD Poland API",
+  "engines": {
+    "node": ">=5.0.0"
+  },
+  "author": "Jakub Wietrzyk <jakub@wietrzyk.com>",
+  "dependencies": {
+    "request": ">=2.69.0",
+    "xml2js": ">=0.4.16"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jaaaco/dpd-parcel-service-pl.git"
+  },
+  "main": "./index.js",
+  "directories": {
+    "lib": "./lib"
+  },
+  "scripts": {
+    "pretest": "jshint index.js lib test",
+    "cover": "istanbul cover _mocha -- --timeout 10000 test/*-test.js test/security/*.js",
+    "coveralls": "cat ./coverage/lcov.info | coveralls -v",
+    "test": "mocha --timeout 10000 test/*-test.js test/security/*.js"
+  },
+  "keywords": [
+    "dpd",
+    "parcel",
+    "api",
+    "pl",
+    "poland"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "^6.4.5",
+    "babel-preset-es2015": "^6.3.13"
+  }
+}
