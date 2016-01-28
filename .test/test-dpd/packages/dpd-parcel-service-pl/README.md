@@ -1,1 +1,0 @@
-# dpd-parcel-service-pl

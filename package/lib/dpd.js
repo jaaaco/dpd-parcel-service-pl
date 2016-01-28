@@ -10,6 +10,9 @@ DPD = class DPD {
 
     call(method, args, callback) {
 
+        this.lastRequest = '';
+        this.lastResponse = '';
+
         let request = Npm.require('request'),
             xml2js = Npm.require('xml2js'),
             envelope = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
@@ -27,6 +30,7 @@ DPD = class DPD {
             headless: true
         });
 
+        // change object to XML
         data = builder.buildObject(args);
 
         xml = envelope.replace('$DATA', data)
@@ -38,7 +42,6 @@ DPD = class DPD {
 
 
         this.lastRequest = xml;
-        console.log('xml', xml);
 
         let soapOptions = {
             uri: this.testmode ? 'https://dpdservicesdemo.dpd.com.pl/DPDPackageObjServicesService/DPDPackageObjServices'
@@ -64,11 +67,27 @@ DPD = class DPD {
                 this.lastResponse = result.body;
 
                 let parseString = xml2js.parseString;
-                parseString(result.body, function (err, result) {
+
+                // change XML response to object
+                parseString(result.body, (err, result) => {
                     if (err) {
                         return callback(err);
                     } else {
-                        return callback(false, dot(result, 'S:Envelope.S:Body.0.ns2:'+method+'Response.0.return.0'));
+                        let body = dot(result, 'S:Envelope.S:Body');
+
+                        if (body) {
+                            if (dot(body,'0.S:Fault')) {
+                                callback({
+                                    faultcode: dot(body,'0.S:Fault.0.faultcode.0'),
+                                    faultstring: dot(body,'0.S:Fault.0.faultstring.0'),
+                                    detail: dot(body,'0.S:Fault.0.detail.0')
+                                });
+                            } else {
+                                return callback(false, dot(result, 'S:Envelope.S:Body.0.ns2:'+method+'Response.0.return.0'));
+                            }
+                        } else {
+                            callback('NO_BODY', result);
+                        }
                     }
                 });
             }
