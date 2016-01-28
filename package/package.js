@@ -13,7 +13,7 @@ Package.describe({
 Package.onUse(function (api) {
     api.versionsFrom('1.2.1');
     api.use('ecmascript');
-    api.use('wfirma:dot');
+    api.use('wfirma:dot@0.0.2');
     api.addFiles('lib/dpd.js');
     api.export('DPD', 'server');
 });
