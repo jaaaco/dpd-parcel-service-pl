@@ -3,7 +3,7 @@ Polish DPD Parcell Service API Wrapper
 ##Installation
 
 ```shell
-jaaaco:dpd-parcel-service-pl
+meteor add jaaaco:dpd-parcel-service-pl
 ```
 
 ## Basic usage
