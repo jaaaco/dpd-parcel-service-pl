@@ -20,15 +20,22 @@ DPD = class DPD {
             envelope = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
             'xmlns:dpd="http://dpdservices.dpd.com.pl/">    ' + "\n" +
             '<soapenv:Header/><soapenv:Body>' +
-            '<dpd:$METHOD> <authDataV1><login>$LOGIN</login><masterFid>$MASTERFID</masterFid><password>$PASSWORD</password> </authDataV1>' +
+            '' +
             '$DATA ' +
-            '</dpd:$METHOD> ' +
+
             '</soapenv:Body>'+"\n"+'</soapenv:Envelope>',
             xml,
             data;
 
+        args = _.extend(args,{authDataV1: {
+            login: this.login,
+            masterFid: this.fid,
+            password: this.password
+        }});
+
         let builder = new xml2js.Builder({
             explicitRoot: false,
+            rootName: 'dpd:' + method,
             headless: true
         });
 
