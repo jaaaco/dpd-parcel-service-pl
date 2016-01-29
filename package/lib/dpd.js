@@ -18,12 +18,12 @@ DPD = class DPD {
         let request = Npm.require('request'),
             xml2js = Npm.require('xml2js'),
             envelope = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" ' +
-            'xmlns:dpd="http://dpdservices.dpd.com.pl/">    ' +
+            'xmlns:dpd="http://dpdservices.dpd.com.pl/">    ' + "\n" +
             '<soapenv:Header/><soapenv:Body>' +
             '<dpd:$METHOD> <authDataV1><login>$LOGIN</login><masterFid>$MASTERFID</masterFid><password>$PASSWORD</password> </authDataV1>' +
             '$DATA ' +
             '</dpd:$METHOD> ' +
-            '</soapenv:Body></soapenv:Envelope>',
+            '</soapenv:Body>'+"\n"+'</soapenv:Envelope>',
             xml,
             data;
 
@@ -42,6 +42,7 @@ DPD = class DPD {
             .replace('$MASTERFID', this.fid)
             .replace('$PASSWORD', this.password);
 
+        xml = xml.replace(/(\r\n|\n|\r)/gm,"");
 
         this.lastRequest = xml;
 
@@ -51,10 +52,7 @@ DPD = class DPD {
             headers: {
                 'Content-Type': 'text/xml',
                 'charset': 'utf-8',
-                'Content-Length': xml.length.toString(),
-                'SOAPAction': '',
-                'Host': 'myserver.com',
-                'Connection': 'keep-alive'
+                'SOAPAction': ''
             },
             method: 'POST',
             body: xml,

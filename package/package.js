@@ -1,6 +1,6 @@
 Package.describe({
     name: 'jaaaco:dpd-parcel-service-pl',
-    version: '0.0.2',
+    version: '0.0.3',
     // Brief, one-line summary of the package.
     summary: 'Meteor package to communicate with DPD Poland API',
     // URL to the Git repository containing the source code for this package.
